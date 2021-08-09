@@ -1,5 +1,7 @@
 # Slowly Changing Dimensions implemenation with Databricks Delta Lake
 
+[![pypi](https://img.shields.io/pypi/v/dbxscd.svg)](https://pypi.org/project/dbxscd)
+
 ## Installation
 
 Install dbxscd package in Azure Databricks notebook
