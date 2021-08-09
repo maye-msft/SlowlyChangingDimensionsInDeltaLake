@@ -11,8 +11,11 @@ Install dbxscd package in Azure Databricks notebook
 ## Run Example
 
 - [Create Azure Databricks Workspace](https://docs.microsoft.com/en-us/azure/databricks/scenarios/quickstart-create-databricks-workspace-portal?tabs=azure-portal)
+
 - Import [example.py](https://raw.githubusercontent.com/maye-msft/SlowlyChangingDimensionsInDeltaLake/main/src/dbxscd/example.py) into workspace
+
 ![Import Notebook](https://raw.githubusercontent.com/maye-msft/SlowlyChangingDimensionsInDeltaLake/main/images/import-notebook.png)
+
 - Click "Run All" button
 
 ## What is Slowly Changing Dimension

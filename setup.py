@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="dbxscd",
-    version="0.0.3",
+    version="0.0.4",
     author="Sean Ma",
     author_email="maye-msft@outlook.com",
     description="Slowly Changing Dimensions implemenation with Databricks Delta Lake",
@@ -17,7 +17,7 @@ setuptools.setup(
     },
     classifiers=[
         "Programming Language :: Python :: 3",
-        "License :: OSI Approved :: Apache License",
+        "License :: OSI Approved :: Apache Software License",
         "Operating System :: OS Independent",
     ],
     package_dir={"": "src"},
