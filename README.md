@@ -2,7 +2,7 @@
 
 ## Installation
 
-install dbxscd in Azure Databricks notebook
+Install dbxscd package in Azure Databricks notebook
 
 ```shell
 %pip install dbxscd
@@ -10,9 +10,10 @@ install dbxscd in Azure Databricks notebook
 
 ## Run Example
 
-Create Azure Databricks Workspace
-Import [example.py](https://raw.githubusercontent.com/maye-msft/SlowlyChangingDimensionsInDeltaLake/main/src/dbxscd/example.py) into workspace
-Click "Run All"
+- [Create Azure Databricks Workspace](https://docs.microsoft.com/en-us/azure/databricks/scenarios/quickstart-create-databricks-workspace-portal?tabs=azure-portal)
+- Import [example.py](https://raw.githubusercontent.com/maye-msft/SlowlyChangingDimensionsInDeltaLake/main/src/dbxscd/example.py) into workspace
+![Import Notebook](https://raw.githubusercontent.com/maye-msft/SlowlyChangingDimensionsInDeltaLake/main/images/import-notebook.png)
+- Click "Run All" button
 
 ## What is Slowly Changing Dimension
 
@@ -155,7 +156,7 @@ df1 = spark.createDataFrame([('FA', 'Fiji Apple', 'Red', 3.5)
 current_time = datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
 target_partition_keys = ['ShortName']
 key_cols = "ShortName,Fruit"
-target_table_name_scd1 = 'default.table_scd2'
+target_table_name_scd2 = 'default.table_scd2'
 # call the SCD1 function
 dbxscd.SCD2(spark, df1, target_table_name_scd1, target_partition_keys, key_cols, current_time)
 # display the result
@@ -182,7 +183,7 @@ display(spark.sql(f"select * from {target_table_name_scd2}"))
 1. SCD3
 
 ```python
-dbxscd.SCD3(df, target_table_name, target_partition_keys, key_cols, current_time):
+dbxscd.SCD3(spark, df, target_table_name, target_partition_keys, key_cols, current_time):
 ```
 
 Parameters:
@@ -211,14 +212,14 @@ df1 = spark.createDataFrame([('FA', 'Fiji Apple', 'Red', 3.5)
 current_time = datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
 target_partition_keys = ['ShortName']
 key_cols = "ShortName,Fruit"
-target_table_name_scd1 = 'default.table_scd3'
-# call the SCD1 function
+target_table_name_scd3 = 'default.table_scd3'
+# call the SCD3 function
 dbxscd.SCD3(spark, df1, target_table_name_scd3, target_partition_keys, key_cols, current_time)
 # display the result
 display(spark.sql(f"select * from {target_table_name_scd3}"))
 ```
 
-![Image of SCD1](https://raw.githubusercontent.com/maye-msft/SlowlyChangingDimensionsInDeltaLake/main/images/SCD3-1.png)
+![Image of SCD3](https://raw.githubusercontent.com/maye-msft/SlowlyChangingDimensionsInDeltaLake/main/images/SCD3-1.png)
 
 Change the price of "Fiji Apple" into 3.5 and run SCD3 again
 
@@ -233,4 +234,4 @@ dbxscd.SCD3(spark, df2, target_table_name_scd3, target_partition_keys, key_cols,
 display(spark.sql(f"select * from {target_table_name_scd3}"))
 ```
 
-![Image of SCD1](https://raw.githubusercontent.com/maye-msft/SlowlyChangingDimensionsInDeltaLake/main/images/SCD3-2.png)
+![Image of SCD3](https://raw.githubusercontent.com/maye-msft/SlowlyChangingDimensionsInDeltaLake/main/images/SCD3-2.png)
