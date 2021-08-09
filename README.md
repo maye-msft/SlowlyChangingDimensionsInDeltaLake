@@ -1,5 +1,19 @@
 # Slowly Changing Dimensions implemenation with Databricks Delta Lake
 
+## Installation
+
+install dbxscd in Azure Databricks notebook
+
+```shell
+%pip install dbxscd
+```
+
+## Run Example
+
+Create Azure Databricks Workspace
+Import [example.py](https://raw.githubusercontent.com/maye-msft/SlowlyChangingDimensionsInDeltaLake/main/src/dbxscd/example.py) into workspace
+Click "Run All"
+
 ## What is Slowly Changing Dimension
 
 Slowly Changing Dimensions (SCD) are dimensions which change over time and in Data Warehuse we need to track the changes of the attributes keep the accuracy of the report.
@@ -19,7 +33,7 @@ BN | Banana | Yellow | 1
 GG | Green Grape | Green | 2
 RG | Red Grape | Red | 2
 
-If we change the price of "Fiji Apple" into 3.5, the dataset will be 
+If we change the price of "Fiji Apple" into 3.5, the dataset will be
 
 with SCD1:
 
@@ -42,8 +56,8 @@ RG | Red Grape | Red | 2 | Y
 
 with SCD3:
 
-ShortName | Fruit | Color | Price | Color_old | Price_old 
---------- | ----- | ----- | ----- | --------- | --------- 
+ShortName | Fruit | Color | Price | Color_old | Price_old
+--------- | ----- | ----- | ----- | --------- | ---------
 FA | Fiji Apple | Red | 3.5 | Red | 3.6
 BN | Banana | Yellow | 1 | NULL | NULL
 GG | Green Grape | Green | 2 | NULL | NULL
@@ -51,18 +65,19 @@ RG | Red Grape | Red | 2 | NULL | NULL
 
 ## SCD implementation in Databricks
 
-In this repository, there are [implementations](./SCD.py) of SCD1, SCD2 and SCD3 in python and Databricks Delta Lake.
+In this repository, there are [implementations](./src/dbxscd/__init__.py) of SCD1, SCD2 and SCD3 in python and Databricks Delta Lake.
 
 1. SCD1
 
 ```python
-SCD1(df, target_table_name, target_partition_keys, key_cols, current_time):
+dbxscd.SCD1(spark, df, target_table_name, target_partition_keys, key_cols, current_time):
 ```
 
 Parameters:
 
+- spark: instance of spark sesion
 - df: source dataframe
-- target_table_name: target table name 
+- target_table_name: target table name
 - target_partition_keys: partition key of the target table
 - key_cols: columns of the key for each row
 - current_time: current timestamp
@@ -86,12 +101,12 @@ target_partition_keys = ['ShortName']
 key_cols = "ShortName,Fruit"
 target_table_name_scd1 = 'default.table_scd1'
 # call the SCD1 function
-SCD1(df1, target_table_name_scd1, target_partition_keys, key_cols, current_time)
+dbxscd.SCD1(spark, df1, target_table_name_scd1, target_partition_keys, key_cols, current_time)
 # display the result
 display(spark.sql(f"select * from {target_table_name_scd1}"))
 ```
 
-![Image of SCD1](images/SCD1-1.png)
+![Image of SCD1](https://raw.githubusercontent.com/maye-msft/SlowlyChangingDimensionsInDeltaLake/main/images/SCD1-1.png)
 
 Change the price of "Fiji Apple" into 3.5 and run SCD1 again
 
@@ -102,22 +117,23 @@ df2 = spark.createDataFrame([('FA', 'Fiji Apple', 'Red', 3.6)
                            ,('RG', 'Red Grape', 'Red', 2.0)], 
                            ['ShortName','Fruit', 'Color', 'Price'])
 # call the SCD1 function again
-SCD1(df2, target_table_name_scd1, target_partition_keys, key_cols, current_time)
+dbxscd.SCD1(spark, df2, target_table_name_scd1, target_partition_keys, key_cols, current_time)
 display(spark.sql(f"select * from {target_table_name_scd1}"))
 ```
 
-![Image of SCD1](images/SCD1-2.png)
+![Image of SCD1](https://raw.githubusercontent.com/maye-msft/SlowlyChangingDimensionsInDeltaLake/main/images/SCD1-2.png)
 
 1. SCD2
 
 ```python
-SCD2(df, target_table_name, target_partition_keys, key_cols, current_time):
+dbxscd.SCD2(spark, df, target_table_name, target_partition_keys, key_cols, current_time):
 ```
 
 Parameters:
 
+- spark: instance of spark sesion
 - df: source dataframe
-- target_table_name: target table name 
+- target_table_name: target table name
 - target_partition_keys: partition key of the target table
 - key_cols: columns of the key for each row
 - current_time: current timestamp
@@ -141,12 +157,12 @@ target_partition_keys = ['ShortName']
 key_cols = "ShortName,Fruit"
 target_table_name_scd1 = 'default.table_scd2'
 # call the SCD1 function
-SCD2(df1, target_table_name_scd1, target_partition_keys, key_cols, current_time)
+dbxscd.SCD2(spark, df1, target_table_name_scd1, target_partition_keys, key_cols, current_time)
 # display the result
 display(spark.sql(f"select * from {target_table_name_scd2}"))
 ```
 
-![Image of SCD1](images/SCD2-1.png)
+![Image of SCD1](https://raw.githubusercontent.com/maye-msft/SlowlyChangingDimensionsInDeltaLake/main/images/SCD2-1.png)
 
 Change the price of "Fiji Apple" into 3.5 and run SCD2 again
 
@@ -157,22 +173,23 @@ df2 = spark.createDataFrame([('FA', 'Fiji Apple', 'Red', 3.6)
                            ,('RG', 'Red Grape', 'Red', 2.0)], 
                            ['ShortName','Fruit', 'Color', 'Price'])
 # call the SCD1 function again
-SCD2(df2, target_table_name_scd2, target_partition_keys, key_cols, current_time)
+dbxscd.SCD2(spark, df2, target_table_name_scd2, target_partition_keys, key_cols, current_time)
 display(spark.sql(f"select * from {target_table_name_scd2}"))
 ```
 
-![Image of SCD1](images/SCD2-2.png)
+![Image of SCD1](https://raw.githubusercontent.com/maye-msft/SlowlyChangingDimensionsInDeltaLake/main/images/SCD2-2.png)
 
 1. SCD3
 
 ```python
-SCD3(df, target_table_name, target_partition_keys, key_cols, current_time):
+dbxscd.SCD3(df, target_table_name, target_partition_keys, key_cols, current_time):
 ```
 
 Parameters:
 
+- spark: instance of spark sesion
 - df: source dataframe
-- target_table_name: target table name 
+- target_table_name: target table name
 - target_partition_keys: partition key of the target table
 - key_cols: columns of the key for each row
 - current_time: current timestamp
@@ -196,12 +213,12 @@ target_partition_keys = ['ShortName']
 key_cols = "ShortName,Fruit"
 target_table_name_scd1 = 'default.table_scd3'
 # call the SCD1 function
-SCD3(df1, target_table_name_scd3, target_partition_keys, key_cols, current_time)
+dbxscd.SCD3(spark, df1, target_table_name_scd3, target_partition_keys, key_cols, current_time)
 # display the result
 display(spark.sql(f"select * from {target_table_name_scd3}"))
 ```
 
-![Image of SCD1](images/SCD3-1.png)
+![Image of SCD1](https://raw.githubusercontent.com/maye-msft/SlowlyChangingDimensionsInDeltaLake/main/images/SCD3-1.png)
 
 Change the price of "Fiji Apple" into 3.5 and run SCD3 again
 
@@ -212,8 +229,8 @@ df2 = spark.createDataFrame([('FA', 'Fiji Apple', 'Red', 3.6)
                            ,('RG', 'Red Grape', 'Red', 2.0)], 
                            ['ShortName','Fruit', 'Color', 'Price'])
 # call the SCD1 function again
-SCD3(df2, target_table_name_scd3, target_partition_keys, key_cols, current_time)
+dbxscd.SCD3(spark, df2, target_table_name_scd3, target_partition_keys, key_cols, current_time)
 display(spark.sql(f"select * from {target_table_name_scd3}"))
 ```
 
-![Image of SCD1](images/SCD3-2.png)
+![Image of SCD1](https://raw.githubusercontent.com/maye-msft/SlowlyChangingDimensionsInDeltaLake/main/images/SCD3-2.png)
