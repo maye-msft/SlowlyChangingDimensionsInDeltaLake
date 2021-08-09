@@ -1,4 +1,4 @@
-# Slowly Changing Dimensions implemenation with Databricks Delta Lake
+# Slowly Changing Dimensions implementation with Azure Databricks Delta Lake
 
 [![pypi](https://img.shields.io/pypi/v/dbxscd.svg)](https://pypi.org/project/dbxscd)
 
@@ -22,7 +22,7 @@ Install dbxscd package in Azure Databricks notebook
 
 ## What is Slowly Changing Dimension
 
-Slowly Changing Dimensions (SCD) are dimensions which change over time and in Data Warehuse we need to track the changes of the attributes keep the accuracy of the report.
+Slowly Changing Dimensions (SCD) are dimensions which change over time and in Data Warehouse we need to track the changes of the attributes keep the accuracy of the report.
 
 And typically there are three types of SCD
 
@@ -81,8 +81,8 @@ dbxscd.SCD1(spark, df, target_table_name, target_partition_keys, key_cols, curre
 
 Parameters:
 
-- spark: instance of spark sesion
-- df: source dataframe
+- spark: instance of spark session
+- df: source data frame
 - target_table_name: target table name
 - target_partition_keys: partition key of the target table
 - key_cols: columns of the key for each row
@@ -137,8 +137,8 @@ dbxscd.SCD2(spark, df, target_table_name, target_partition_keys, key_cols, curre
 
 Parameters:
 
-- spark: instance of spark sesion
-- df: source dataframe
+- spark: instance of spark session
+- df: source data frame
 - target_table_name: target table name
 - target_partition_keys: partition key of the target table
 - key_cols: columns of the key for each row
@@ -193,8 +193,8 @@ dbxscd.SCD3(spark, df, target_table_name, target_partition_keys, key_cols, curre
 
 Parameters:
 
-- spark: instance of spark sesion
-- df: source dataframe
+- spark: instance of spark session
+- df: source data frame
 - target_table_name: target table name
 - target_partition_keys: partition key of the target table
 - key_cols: columns of the key for each row
